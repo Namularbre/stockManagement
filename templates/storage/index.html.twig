@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Stock Managment{% endblock %}
+
+{% block body %}
+<div class="container">
+    <ul>
+    {% for storage in storages %}
+        <li>
+            <a href="/storages/{{storage.id}}">{{storage.name}}</a>
+        </li>
+    {% endfor %}
+    </ul>
+</div>
+{% endblock %}

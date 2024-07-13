@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New storage{% endblock %}
+
+{% block body %}
+    <h1>Add a new storage</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button type="submit">Add storage</button>
+    {{ form_end(form) }}
+{% endblock %}
