@@ -17,11 +17,11 @@ class StorageController extends AbstractController
     #[Route('/', name: 'app_storages', methods: ['GET'])]
     public function index(StorageRepository $storageRepository): Response
     {
-        $ŝtorages = $storageRepository->findAll();
+        $storages = $storageRepository->findAll();
 
         return $this->render('storage/index.html.twig', [
             'controller_name' => 'StorageController',
-            'storages' => $ŝtorages
+            'storages' => $storages
         ]);
     }
 
