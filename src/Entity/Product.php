@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProductRepository;
+use DateTime;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
@@ -30,7 +32,7 @@ class Product
 
     public function __construct()
     {
-        $this->createdAt = date('Y-m-d H:i:s');
+        $this->createdAt = new DateTimeImmutable('now');
     }
 
     public function getId(): ?int
