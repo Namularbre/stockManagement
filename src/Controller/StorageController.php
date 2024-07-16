@@ -25,27 +25,38 @@ class StorageController extends AbstractController
         ]);
     }
 
-    #[Route('{id}', name: 'app_storage', methods: ['GET'])]
+    #[Route('/storage/{id}', name: 'app_storage', methods: ['GET'])]
     public function getStorage(StorageRepository $storageRepository, int $id): Response
     {
         $storage = $storageRepository->findOneBy(["id" => $id]);
 
-        return $this->render('storage/storage.html.twig', [
-            'controller_name' => 'StorageController',
-            'storage' => $storage
-        ]);
+        if (isset($storage)) {
+            return $this->render('product/product.html.twig', [
+                'storage' => $storage,
+            ]);
+        }
+
+        throw $this->createNotFoundException('Storage not found');
     }
 
-    #[Route('/new', name: 'app_storage_new', methods: ['POST'])]
+    #[Route('/new', name: 'app_storage_new', methods: ['GET', 'POST'])]
     public function newStorage(EntityManagerInterface $entityManager, Request $request): Response
     {
         $storage = new Storage();
         $form = $this->createForm(StorageType::class, $storage);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($storage);
-            $entityManager->flush();
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $entityManager->persist($storage);
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Storage added successfully');
+            } else {
+                $error = $form->getErrors(true)[0]->getMessage();
+                $this->addFlash('danger', $error);
+            }
+            return $this->redirectToRoute('app_storage_new');
         }
 
         return $this->render('storage/new.html.twig', [
