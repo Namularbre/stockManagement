@@ -23,3 +23,8 @@
 /public/assets/
 /assets/vendor/
 ###< symfony/asset-mapper ###
+
+###> idea intelij ###
+.idea/
+stockManagment.iml
+###< idea intelij ###
