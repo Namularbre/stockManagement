@@ -1,15 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Stock Managment{% endblock %}
+{% block title %}Stock Management{% endblock %}
 
 {% block body %}
-<div class="container">
-    <ul>
-    {% for storage in storages %}
-        <li>
-            <a href="/storages/{{storage.id}}">{{storage.name}}</a>
-        </li>
-    {% endfor %}
-    </ul>
-</div>
+<h1>Welcome to stock management</h1>
+<ul class="list-group">
+    <li class="list-group-item">
+        <a href="{{ path('app_products') }}">See products</a>
+    </li>
+    <li class="list-group-item">
+        <a href="{{ path('app_storages') }}">See storages</a>
+    </li>
+</ul>
 {% endblock %}
