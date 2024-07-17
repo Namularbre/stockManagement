@@ -29,11 +29,11 @@ class ProductType extends AbstractType
                     new NotNull(),
                     new Length([
                         'min' => 3,
-                        'minMessage' => 'The name must have more than 3 chararters',
+                        'minMessage' => 'The name must have more than 3 characters',
                         'max' => 254,
                         'maxMessage' => 'The name must be shorter than 254 characters'
                     ]),
-                ]
+                ],
             ])
             ->add('description', TextareaType::class, [
                 'attr' => ['class' => 'form-control'],
@@ -42,12 +42,6 @@ class ProductType extends AbstractType
             ])
             ->add('quantity', NumberType::class, [
                 'attr' => ['class' => 'form-control', 'min' => 0],
-                'label_attr' => ['class' => 'form-label'],
-                'required' => false,
-            ])
-            ->add('createdAt', DateType::class, [
-                'widget' => 'single_text',
-                'attr' => ['class' => 'form-control'],
                 'label_attr' => ['class' => 'form-label'],
                 'required' => false,
             ])

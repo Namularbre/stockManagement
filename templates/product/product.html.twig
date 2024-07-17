@@ -1,7 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Product {{product.name}}{% endblock %}
+{% block title %}Product{% endblock %}
 
 {% block body %}
-
+<div class="container">
+    {% if product %}
+        <h5>{{ product.name }}</h5>
+        {% if product.description %}
+            <p>{{ product.description }}</p>
+        {% endif %}
+        {% if product.quantity %}
+            <p>{{ product.quantity }}</p>
+        {% endif %}
+        <p>Created at : {{ product.createdAt.format('Y-M-D h.m.s') }}</p>
+        <p>Storage: {{ product.storage.name }}</p>
+    {% endif %}
+    <a href="{{path('app_products')}}" class="btn btn-secondary">Return</a>
+</div>
 {% endblock %}

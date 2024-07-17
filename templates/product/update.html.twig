@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Update an entity {% endblock %}
+
+{% block body %}
+    <h1>Update product {{ product.name }}</h1>
+    {{ form_start(form, {'action': path('app_product_update', {'id': product.id}), 'method': 'PUT'}) }}
+        {{ form_errors(form) }}
+        {{ form_widget(form) }}
+        <button class="btn btn-primary mt-3">Save</button>
+    {{ form_end(form) }}
+
+    <a class="btn btn-secondary mt-3" href="{{ path('app_products') }}">Return</a>
+{% endblock %}
