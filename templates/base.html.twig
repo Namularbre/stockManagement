@@ -13,6 +13,9 @@
         {% endblock %}
     </head>
     <body>
+        <header>
+            {% include 'nav/nav.html.twig' %}
+        </header>
         <div class="container">
             {% block body %}{% endblock %}
         </div>
