@@ -31,7 +31,7 @@ class StorageController extends AbstractController
         $storage = $storageRepository->findOneBy(["id" => $id]);
 
         if (isset($storage)) {
-            return $this->render('product/product.html.twig', [
+            return $this->render('storage/storage.html.twig', [
                 'storage' => $storage,
             ]);
         }
@@ -62,5 +62,22 @@ class StorageController extends AbstractController
         return $this->render('storage/new.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route('/products/{id}', name: 'app_storage_products', methods: ['GET'])]
+    public function getProducts(StorageRepository $storageRepository, int $id): Response
+    {
+        $storage = $storageRepository->findOneBy(['id' => $id]);
+
+        if (isset($storage)) {
+            $products = $storage->getProducts();
+
+            $this->render('storage/products.html.twig', [
+                'storage' => $storage,
+                'products' => $products
+            ]);
+        }
+
+        throw $this->createNotFoundException('Storage not found');
     }
 }
