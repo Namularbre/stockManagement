@@ -3,13 +3,17 @@
 {% block title %}Stock Managment{% endblock %}
 
 {% block body %}
-<div class="container">
-    <ul>
-    {% for storage in storages %}
-        <li>
-            <a href="/storages/{{storage.id}}">{{storage.name}}</a>
-        </li>
-    {% endfor %}
-    </ul>
-</div>
+    <h1 class="mb-3">Storages list</h1>
+    <a href="{{ path('app_storage_new') }}" class="btn btn-primary mb-3">Create a storage</a>
+    {% if storages %}
+        <ul>
+        {% for storage in storages %}
+            <li>
+                <a href="{{ path('app_storage_products', {'id' : storage.id}) }}">{{storage.name}}</a>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No storages found.</p>
+    {% endif %}
 {% endblock %}
