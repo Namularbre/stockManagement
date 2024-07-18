@@ -3,7 +3,8 @@
 {% block title %}Product in {{ storage.name }}{% endblock %}
 
 {% block body %}
-    <h1>Products in {{ storage.name }}</h1>
+    <h1 class="mb-3">Products in {{ storage.name }}</h1>
+    <a class="btn btn-primary mb-3" href="{{ path('app_product_new') }}">Add product to storage</a>
     {% if products and products.count > 0 %}
         <ul class="group-list">
             {% for product in products %}
