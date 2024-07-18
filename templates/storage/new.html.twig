@@ -5,8 +5,18 @@
 {% block body %}
     <h1>Add a new storage</h1>
 
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
     {{ form_start(form) }}
+        {{ form_errors(form) }}
         {{ form_widget(form) }}
-        <button type="submit">Add storage</button>
+        <button class="btn btn-primary mt-3" type="submit">Add storage</button>
     {{ form_end(form) }}
+    <a href="{{path('app_storages')}}" class="btn btn-secondary mt-3">Return</a>
 {% endblock %}
