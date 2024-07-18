@@ -25,20 +25,6 @@ class StorageController extends AbstractController
         ]);
     }
 
-    #[Route('/storage/{id}', name: 'app_storage', methods: ['GET'])]
-    public function getStorage(StorageRepository $storageRepository, int $id): Response
-    {
-        $storage = $storageRepository->findOneBy(["id" => $id]);
-
-        if (isset($storage)) {
-            return $this->render('storage/storage.html.twig', [
-                'storage' => $storage,
-            ]);
-        }
-
-        throw $this->createNotFoundException('Storage not found');
-    }
-
     #[Route('/new', name: 'app_storage_new', methods: ['GET', 'POST'])]
     public function newStorage(EntityManagerInterface $entityManager, Request $request): Response
     {
@@ -72,7 +58,7 @@ class StorageController extends AbstractController
         if (isset($storage)) {
             $products = $storage->getProducts();
 
-            $this->render('storage/products.html.twig', [
+            return $this->render('storage/products.html.twig', [
                 'storage' => $storage,
                 'products' => $products
             ]);
