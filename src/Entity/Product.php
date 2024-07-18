@@ -30,6 +30,9 @@ class Product
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?Storage $storage = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imageUrl = null;
+
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable('now');
@@ -96,6 +99,18 @@ class Product
     public function setStorage(?Storage $storage): static
     {
         $this->storage = $storage;
+
+        return $this;
+    }
+
+    public function getImageUrl(): ?string
+    {
+        return $this->imageUrl;
+    }
+
+    public function setImageUrl(?string $imageUrl): static
+    {
+        $this->imageUrl = $imageUrl;
 
         return $this;
     }
