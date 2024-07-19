@@ -3,7 +3,8 @@
 {% block title %}Products{% endblock %}
 
 {% block body %}
-    <h1>Products</h1>
+    <h1 class="mb-3">Products</h1>
+    <a href="{{ path('app_product_new') }}" class="mb-3 btn btn-primary">Create product</a>
     {% if products %}
         <ul>
         {% for product in products %}
