@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User{% endblock %}
+
+{% block body %}
+    <h1 class="mb-3">Your profile</h1>
+    <p class="mb-3">Connected has {{ user.userIdentifier }}</p>
+    <div>
+        <h5>Your roles</h5>
+        <ul class="list-group list-group-flush">
+            {% for role in user.roles %}
+                <li class="list-group-item">
+                    {% if role == 'ROLE_USER' %}
+                        <p>User</p>
+                    {% elseif role == 'ROLE_ADMIN' %}
+                        <p>Admin</p>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="btn-group">
+        <a href="{{ path('app_home') }}" class="btn btn-secondary">Return to home</a>
+        <a href="{{ path('app_logout') }}" class="btn btn-danger">Logout</a>
+    </div>
+{% endblock %}
