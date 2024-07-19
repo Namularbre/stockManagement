@@ -1,0 +1,11 @@
+# Test files
+.env.test
+.idea/
+tests/
+phpunit.xml.dist
+
+# Git
+.gitignore
+
+# Documentation
+README.md
