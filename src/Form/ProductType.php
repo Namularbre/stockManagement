@@ -6,7 +6,6 @@ use App\Entity\Product;
 use App\Entity\Storage;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -41,6 +40,11 @@ class ProductType extends AbstractType
                 'required' => false,
             ])
             ->add('quantity', NumberType::class, [
+                'attr' => ['class' => 'form-control', 'min' => 0],
+                'label_attr' => ['class' => 'form-label'],
+                'required' => false,
+            ])
+            ->add('minQuantity', NumberType::class, [
                 'attr' => ['class' => 'form-control', 'min' => 0],
                 'label_attr' => ['class' => 'form-label'],
                 'required' => false,
