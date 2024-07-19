@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\ProductRepository;
-use DateTime;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -33,9 +32,14 @@ class Product
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $imageUrl = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $minQuantity = null;
+
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable('now');
+        $this->quantity = 1;
+        $this->minQuantity = 0;
     }
 
     public function getId(): ?int
@@ -111,6 +115,18 @@ class Product
     public function setImageUrl(?string $imageUrl): static
     {
         $this->imageUrl = $imageUrl;
+
+        return $this;
+    }
+
+    public function getMinQuantity(): ?int
+    {
+        return $this->minQuantity;
+    }
+
+    public function setMinQuantity(?int $minQuantity): static
+    {
+        $this->minQuantity = $minQuantity;
 
         return $this;
     }
