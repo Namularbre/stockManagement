@@ -1,7 +1,7 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
-    static targets = [".delete"];
+    static targets = ["delete"];
 
     connect() {
         console.log('Delete controller connected');
@@ -25,9 +25,16 @@ export default class extends Controller {
         })
             .then(response => {
                 if (response.ok) {
-                    window.location.reload();
+                    response.text()
+                        .then(message => {
+                            alert(message);
+                            window.location.reload();
+                        });
                 } else {
-                    alert('An error occurred: ' + data.message);
+                    response.text()
+                        .then(message => {
+                            console.error(message);
+                        });
                     throw new Error('Failed to delete');
                 }
             })

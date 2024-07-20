@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 #[Route('/products')]
 class ProductController extends AbstractController
 {
-    #[Route('/', name: 'app_products')]
+    #[Route('/', name: 'app_products', methods: ['GET'])]
     public function index(ProductRepository $productRepository): Response
     {
         $products = $productRepository->findAll();
@@ -73,8 +73,7 @@ class ProductController extends AbstractController
             $entityManager->remove($product);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Product removed successfully');
-            return $this->redirectToRoute('app_products');
+            return new Response('Product removed successfully', Response::HTTP_OK);
         }
 
         throw $this->createNotFoundException('Product not found.');
