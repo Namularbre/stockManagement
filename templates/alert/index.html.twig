@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Alerts{% endblock %}
+
+{% block body %}
+    <h1 class="mb-3">Alerts</h1>
+    <a href="{{ path('app_alert_new') }}" class="btn btn-primary mb-3">Create an alert</a>
+    {% if alerts %}
+        <ul>
+            {% for alert in alerts %}
+                <li class="mb-3">
+                    <h5 class="mb-3">Product to retake:</h5>
+                    <ul>
+                        {% for product in alert.products %}
+                            <li class="mb-3">
+                                <div class="m-3">
+                                    <p>{{ product.name }}</p>
+                                    <p>{{ product.minQuantity }}</p>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <div class="mb-3">
+                        {% if alert.author %}
+                            <p>Created by: {{ alert.author.username }}</p>
+                        {% else %}
+                            <p>Created automatically</p>
+                        {% endif %}
+                        <p>Created at: {{ alert.createdAt.format('Y-M-D h.m.s') }}</p>
+                    </div>
+                    <button type="button" class="btn btn-danger delete-button" data-delete-button-source="delete" data-controller="delete" data-action="delete#delete" data-url="{{ path('app_alert_delete', {'id': alert.id}) }}">Delete</button>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No alerts found.</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Create an alert {% endblock %}
+
+{% block body %}
+    <h1 class="mb-3">Create an alert</h1>
+    {{ form_start(form) }}
+        {{ form_errors(form) }}
+        {{ form_widget(form) }}
+        <button class="btn btn-primary mt-3" type="submit">Add product</button>
+    {{ form_end(form) }}
+    <a href="{{path('app_alerts')}}" class="btn btn-secondary mt-3">Return</a>
+{% endblock %}

@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\ProductRepository;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
@@ -35,11 +37,18 @@ class Product
     #[ORM\Column(nullable: true)]
     private ?int $minQuantity = null;
 
+    /**
+     * @var Collection<int, Alert>
+     */
+    #[ORM\ManyToMany(targetEntity: Alert::class, mappedBy: 'products')]
+    private Collection $alerts;
+
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable('now');
         $this->quantity = 1;
         $this->minQuantity = 0;
+        $this->alerts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -127,6 +136,33 @@ class Product
     public function setMinQuantity(?int $minQuantity): static
     {
         $this->minQuantity = $minQuantity;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Alert>
+     */
+    public function getAlerts(): Collection
+    {
+        return $this->alerts;
+    }
+
+    public function addAlert(Alert $alert): static
+    {
+        if (!$this->alerts->contains($alert)) {
+            $this->alerts->add($alert);
+            $alert->addProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAlert(Alert $alert): static
+    {
+        if ($this->alerts->removeElement($alert)) {
+            $alert->removeProduct($this);
+        }
 
         return $this;
     }
