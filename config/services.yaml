@@ -20,5 +20,11 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    App\Service\ImageService:
+        arguments:
+            $minioRegion: 'eu-west-1'
+            $minioEndpoint: '%env(MINIO_ENDPOINT)%'
+            $minioKey: '%env(MINIO_KEY)%'
+            $minioSecret: '%env(MINIO_SECRET)%'
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

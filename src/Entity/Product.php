@@ -7,6 +7,7 @@ use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
@@ -31,8 +32,14 @@ class Product
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?Storage $storage = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $imageUrl = null;
+    /**
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     *
+     * @Vich\\UploadableField(mapping="fichier", fileNameProperty="imageName")
+     *
+     * @var UploadedFile|null
+     */
+    private ?UploadedFile $imageFile = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $minQuantity = null;
@@ -42,6 +49,9 @@ class Product
      */
     #[ORM\ManyToMany(targetEntity: Alert::class, mappedBy: 'products')]
     private Collection $alerts;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imageName = null;
 
     public function __construct()
     {
@@ -116,14 +126,14 @@ class Product
         return $this;
     }
 
-    public function getImageUrl(): ?string
+    public function getImageName(): ?string
     {
-        return $this->imageUrl;
+        return $this->imageName;
     }
 
-    public function setImageUrl(?string $imageUrl): static
+    public function setImageName(?string $imageName): static
     {
-        $this->imageUrl = $imageUrl;
+        $this->imageName = $imageName;
 
         return $this;
     }
@@ -166,4 +176,15 @@ class Product
 
         return $this;
     }
+
+    public function getImageFile(): ?UploadedFile
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageFile(?UploadedFile $imageFile): void
+    {
+        $this->imageFile = $imageFile;
+    }
+
 }

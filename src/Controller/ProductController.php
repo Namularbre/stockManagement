@@ -5,7 +5,10 @@ namespace App\Controller;
 use App\Entity\Product;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
+use App\Service\ImageService;
 use Doctrine\ORM\EntityManagerInterface;
+use League\Flysystem\FilesystemException;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -25,13 +28,25 @@ class ProductController extends AbstractController
     }
 
     #[Route('/product/{id}', name: 'app_product', methods: ['GET'])]
-    public function getProduct(ProductRepository $productRepository, int $id): Response
+    public function getProduct(ProductRepository $productRepository, int $id, ImageService $imageService, LoggerInterface $logger): Response
     {
         $product = $productRepository->findOneBy(['id' => $id]);
+        $imageName = $product->getImageName();
+        $imageFile = null;
+
+        if (isset($imageName)) {
+            try {
+                $imageFile = $imageService->getObject($imageName);
+            } catch (FilesystemException $exception) {
+                $logger->error('Error recovering product image: ' . $exception->getMessage());
+                return new Response('Internal server error', Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+        }
 
         if (isset($product)) {
             return $this->render('product/product.html.twig', [
                 'product' => $product,
+                'imageFile' => $imageFile,
             ]);
         }
 
@@ -39,7 +54,7 @@ class ProductController extends AbstractController
     }
 
     #[Route('/new', name: 'app_product_new', methods: ['GET', 'POST'])]
-    public function newProduct(EntityManagerInterface $entityManager, Request $request): Response
+    public function newProduct(EntityManagerInterface $entityManager, Request $request, ImageService $imageService, LoggerInterface $logger): Response
     {
         $product = new Product();
         $form = $this->createForm(ProductType::class, $product);
@@ -47,6 +62,17 @@ class ProductController extends AbstractController
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
+                $image = $product->getImageFile();
+                if (isset($image)) {
+                    try {
+                        $imageName = $imageService->putObject($product->getName(), $image->getContent());
+                        $product->setImageName($imageName);
+                    } catch (FilesystemException $exception) {
+                        $logger->error('Unable to upload file into min.io: ' . $exception->getMessage());
+                        return new Response('Internal server error', Response::HTTP_INTERNAL_SERVER_ERROR);
+                    }
+                }
+
                 $entityManager->persist($product);
                 $entityManager->flush();
 

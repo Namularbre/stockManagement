@@ -6,8 +6,8 @@
 <div class="container">
     {% if product %}
         <div class="card mb-3">
-            {% if product.imageUrl %}
-                <img src="{{ product.imageUrl }}" alt="{{ product.name }} image" class="card-img-top">
+            {% if imageFile %}
+                <img src="{{ imageFile }}" alt="{{ product.name }} image" class="card-img-top img-fluid mx-auto" style="max-width: 50vh; height: auto;">
             {% endif %}
             <div class="card-body">
                 <h5 class="card-title">{{ product.name }}</h5>
@@ -15,7 +15,10 @@
                     <p class="card-text">{{ product.description }}</p>
                 {% endif %}
                 {% if product.quantity %}
-                    <p>{{ product.quantity }}</p>
+                    <p>Quantity: {{ product.quantity }}</p>
+                {% endif %}
+                {% if product.minQuantity %}
+                    <p>Min quantity: {{ product.minQuantity }}</p>
                 {% endif %}
                 <p>Created at : {{ product.createdAt.format('Y-M-D h.m.s') }}</p>
                 <p>Storage: {{ product.storage.name }}</p>
