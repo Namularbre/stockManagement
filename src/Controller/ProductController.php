@@ -31,19 +31,20 @@ class ProductController extends AbstractController
     public function getProduct(ProductRepository $productRepository, int $id, ImageService $imageService, LoggerInterface $logger): Response
     {
         $product = $productRepository->findOneBy(['id' => $id]);
-        $imageName = $product->getImageName();
-        $imageFile = null;
-
-        if (isset($imageName)) {
-            try {
-                $imageFile = $imageService->getObject($imageName);
-            } catch (FilesystemException $exception) {
-                $logger->error('Error recovering product image: ' . $exception->getMessage());
-                return new Response('Internal server error', Response::HTTP_INTERNAL_SERVER_ERROR);
-            }
-        }
 
         if (isset($product)) {
+            $imageName = $product->getImageName();
+            $imageFile = null;
+
+            if (isset($imageName)) {
+                try {
+                    $imageFile = $imageService->getObject($imageName);
+                } catch (FilesystemException $exception) {
+                    $logger->error('Error recovering product image: ' . $exception->getMessage());
+                    return new Response('Internal server error', Response::HTTP_INTERNAL_SERVER_ERROR);
+                }
+            }
+
             return $this->render('product/product.html.twig', [
                 'product' => $product,
                 'imageFile' => $imageFile,
