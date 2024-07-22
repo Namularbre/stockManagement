@@ -66,4 +66,54 @@ class StorageController extends AbstractController
 
         throw $this->createNotFoundException('Storage not found');
     }
+
+    #[Route('/update/{id}', name: 'app_storage_update', methods: ['GET', 'PUT'])]
+    public function updateStorage(EntityManagerInterface $entityManager, int $id, Request $request): Response
+    {
+        $storage = $entityManager->getRepository(Storage::class)->findOneBy(['id' => $id]);
+
+        if (!isset($storage)) {
+            throw $this->createNotFoundException('Storage not found');
+        }
+
+        $form = $this->createForm(StorageType::class, $storage, [
+            'method' => Request::METHOD_PUT,
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Storage updated');
+            } else {
+                $error = $form->getErrors(true)[0]->getMessage();
+                $this->addFlash('danger', $error);
+            }
+
+            return $this->redirectToRoute('app_storage_update', [
+                'id' => $storage->getId(),
+            ]);
+        }
+
+        return $this->render('storage/update.html.twig', [
+            'storage' => $storage,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/delete/{id}', name: 'app_storage_delete', methods: ['DELETE'])]
+    public function deleteStorage(EntityManagerInterface $entityManager, int $id): Response
+    {
+        $storage = $entityManager->getRepository(Storage::class)->findOneBy(['id' => $id]);
+
+        if (isset($storage)) {
+            $entityManager->remove($storage);
+            $entityManager->flush();
+
+            return new Response('Storage removed successfully', Response::HTTP_OK);
+        }
+
+        throw $this->createNotFoundException('Storage not found');
+    }
 }

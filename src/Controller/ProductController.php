@@ -114,7 +114,7 @@ class ProductController extends AbstractController
         }
 
         $form = $this->createForm(ProductType::class, $product, [
-            'method' => Request::METHOD_PUT
+            'method' => Request::METHOD_PUT,
         ]);
         $form->handleRequest($request);
 
@@ -128,7 +128,7 @@ class ProductController extends AbstractController
                 $this->addFlash('danger', $error);
             }
             return $this->redirectToRoute('app_product_update', [
-                'id' => $product->getId()
+                'id' => $product->getId(),
             ]);
         }
 

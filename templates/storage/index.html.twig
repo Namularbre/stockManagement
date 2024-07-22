@@ -10,6 +10,11 @@
         {% for storage in storages %}
             <li>
                 <a href="{{ path('app_storage_products', {'id' : storage.id}) }}">{{storage.name}}</a>
+                <p>Number of products: {{ storage.products.count }}</p>
+                <div class="btn-group">
+                    <a class="btn btn-primary" href="{{ path('app_storage_update', {'id': storage.id}) }}">Update</a>
+                    <button type="button" class="btn btn-danger delete-button" data-delete-button-source="delete" data-controller="delete" data-action="delete#delete" data-url="{{ path('app_storage_delete', {'id': storage.id}) }}">Delete</button>
+                </div>
             </li>
         {% endfor %}
         </ul>

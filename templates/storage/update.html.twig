@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Update storage {% endblock %}
+
+{% block body %}
+    <h1>Update storage {{ storage.name }}</h1>
+    {{ form_start(form, {'action': path('app_storage_update', {'id': storage.id}), 'method': 'PUT'}) }}
+        {{ form_errors(form) }}
+        {{ form_widget(form) }}
+        <button class="btn btn-primary mt-3">Save</button>
+    {{ form_end(form) }}
+
+    <a class="btn btn-secondary mt-3" href="{{ path('app_storages') }}">Return</a>
+{% endblock %}
