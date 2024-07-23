@@ -153,6 +153,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __toString(): string
     {
-        return $this->id . " " . $this->username . " ";
+        $roles = "";
+        foreach ($this->roles as $role) {
+            $roles .= $role . " ";
+        }
+
+        return "id: " . $this->id . " username: " . $this->username . 'password: ' . $this->password . ' roles: ' . $roles;
     }
 }
