@@ -7,13 +7,15 @@
     <p class="mb-3">Connected has {{ user.userIdentifier }}</p>
     <div>
         <h5>Your roles</h5>
-        <ul class="list-group list-group-flush">
+        <ul class="list-group mb-3 col-3">
             {% for role in user.roles %}
                 <li class="list-group-item">
                     {% if role == 'ROLE_USER' %}
                         <p>User</p>
                     {% elseif role == 'ROLE_ADMIN' %}
                         <p>Admin</p>
+                    {% else %}
+                        <p>{{ role }}</p>
                     {% endif %}
                 </li>
             {% endfor %}
