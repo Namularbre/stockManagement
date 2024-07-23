@@ -22,7 +22,7 @@
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                         <a class="nav-link {% if app.request.attributes.get('_route') == 'app_profile' %}active{% endif %}" href="{{ path('app_user') }}">Profile</a>
                     {% else %}
-                        <a class="nav-link {% if app.request.attributes.get('_route') == 'app_logout' %}active{% endif %}" href="{{ path('app_logout') }}">Logout</a>
+                        <a class="nav-link {% if app.request.attributes.get('_route') == 'app_login' %}active{% endif %}" href="{{ path('app_login') }}">Login</a>
                     {% endif %}
                 </li>
             </ul>
