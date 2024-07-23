@@ -24,6 +24,20 @@ class AlertController extends AbstractController
         ]);
     }
 
+    #[Route('/alert/{id}', name: 'app_alert', methods: ['GET'])]
+    public function getAlert(AlertRepository $alertRepository, int $id): Response
+    {
+        $alert = $alertRepository->findOneBy(['id' => $id]);
+
+        if (isset($alert)) {
+            return $this->render('alert/alert.html.twig', [
+                'alert' => $alert,
+            ]);
+        }
+
+        throw $this->createNotFoundException('Alert not found');
+    }
+
     #[Route('/new', name: 'app_alert_new', methods: ['GET', 'POST'])]
     public function new(EntityManagerInterface $entityManager, Request $request): Response
     {

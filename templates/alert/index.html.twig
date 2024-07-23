@@ -9,25 +9,18 @@
         <ul>
             {% for alert in alerts %}
                 <li class="mb-3">
+                    <a href="{{ path('app_alert', {'id': alert.id}) }}" class="btn btn-primary">See alert</a>
                     <h5 class="mb-3">Product to retake:</h5>
                     <ul>
                         {% for product in alert.products %}
                             <li class="mb-3">
                                 <div class="m-3">
-                                    <p>{{ product.name }}</p>
-                                    <p>{{ product.minQuantity }}</p>
+                                    <p>Product name: {{ product.name }}</p>
+                                    <p>Min quantity to refill: {{ product.minQuantity }}</p>
                                 </div>
                             </li>
                         {% endfor %}
                     </ul>
-                    <div class="mb-3">
-                        {% if alert.author %}
-                            <p>Created by: {{ alert.author.username }}</p>
-                        {% else %}
-                            <p>Created automatically</p>
-                        {% endif %}
-                        <p>Created at: {{ alert.createdAt.format('Y-M-D h.m.s') }}</p>
-                    </div>
                     <button type="button" class="btn btn-danger delete-button" data-delete-button-source="delete" data-controller="delete" data-action="delete#delete" data-url="{{ path('app_alert_delete', {'id': alert.id}) }}">Delete</button>
                 </li>
             {% endfor %}

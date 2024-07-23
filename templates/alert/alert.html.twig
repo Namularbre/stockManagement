@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Alert {% endblock %}
+
+{% block body %}
+    {% if alert %}
+        <h5 class="mb-3">Product to retake:</h5>
+        <ul>
+            {% for product in alert.products %}
+                <li class="mb-3">
+                    <div class="m-3">
+                        <p>Product name: {{ product.name }}</p>
+                        <p>Min quantity to refill: {{ product.minQuantity }}</p>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="mb-3">
+            {% if alert.author %}
+                <p>Created by: {{ alert.author.username }}</p>
+            {% else %}
+                <p>Created automatically</p>
+            {% endif %}
+            <p>Created at: {{ alert.createdAt.format('Y-M-D h.m.s') }}</p>
+        </div>
+    {% endif %}
+    <a class="btn btn-secondary" href="{{ path('app_alerts') }}">Return</a>
+{% endblock %}
