@@ -25,7 +25,7 @@
 ###< symfony/asset-mapper ###
 
 ###> idea intelij ###
-.idea/
+.idea
 stockManagment.iml
 ###< idea intelij ###
 ###> symfony/webpack-encore-bundle ###
