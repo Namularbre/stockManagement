@@ -17,8 +17,12 @@ class UserController extends AbstractController
         $username = $security->getUser()->getUserIdentifier();
         $user = $userRepository->findOneBy(['username' => $username]);
 
-        return $this->render('user/index.html.twig', [
-            'user' => $user,
-        ]);
+        if (isset($user)) {
+            return $this->render('user/index.html.twig', [
+                'user' => $user,
+            ]);
+        }
+
+        throw $this->createNotFoundException('User not found');
     }
 }
