@@ -20,6 +20,7 @@ class UserController extends AbstractController
         if (isset($user)) {
             return $this->render('user/index.html.twig', [
                 'user' => $user,
+                'isAdmin' => in_array('ROLE_ADMIN', $user->getRoles()),
             ]);
         }
 

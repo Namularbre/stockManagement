@@ -21,6 +21,12 @@
             {% endfor %}
         </ul>
     </div>
+    <div>
+        {% if isAdmin %}
+            <p>Admin links</p>
+            <a href="{{ path('app_admin_user_index') }}">Users</a>
+        {% endif %}
+    </div>
     <div class="btn-group">
         <a href="{{ path('app_home') }}" class="btn btn-secondary">Return to home</a>
         <a href="{{ path('app_logout') }}" class="btn btn-danger">Logout</a>
