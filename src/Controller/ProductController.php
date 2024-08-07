@@ -28,7 +28,7 @@ class ProductController extends AbstractController
             'paginator' => $paginator,
             'page' => $page,
             'currentPage' => $page,
-            'totalPages' => $paginator->count()
+            'totalPages' => ceil($paginator->count() / ProductRepository::LIMIT),
         ]);
     }
 
