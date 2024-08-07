@@ -5,9 +5,9 @@
 {% block body %}
     <h1 class="mb-3">Alerts</h1>
     <a href="{{ path('app_alert_new') }}" class="btn btn-primary mb-3">Create an alert</a>
-    {% if alerts %}
+    {% if paginator.count > 0 %}
         <ul>
-            {% for alert in alerts %}
+            {% for alert in paginator %}
                 <li class="mb-3">
                     <a href="{{ path('app_alert', {'id': alert.id}) }}" class="btn btn-primary">See alert</a>
                     <h5 class="mb-3">Product to retake:</h5>
@@ -21,10 +21,28 @@
                             </li>
                         {% endfor %}
                     </ul>
+                    <p>Created at: {{ alert.createdAt.format('Y-M-D h.m.s') }}</p>
                     <button type="button" class="btn btn-danger delete-button" data-delete-button-source="delete" data-controller="delete" data-action="delete#delete" data-url="{{ path('app_alert_delete', {'id': alert.id}) }}">Delete</button>
                 </li>
             {% endfor %}
         </ul>
+        <div class="navigation">
+            {% if currentPage > 1 %}
+                <a href="{{ path('app_alerts', {'page': currentPage - 1}) }}">&laquo; Previous</a>
+            {% endif %}
+
+            {% for i in 1..totalPages %}
+                {% if i == currentPage %}
+                    <span>{{ i }}</span>
+                {% else %}
+                    <a href="{{ path('app_alerts', {'page': i}) }}">{{ i }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if currentPage < totalPages %}
+                <a href="{{ path('app_alerts', {'page': currentPage + 1}) }}">Next &raquo;</a>
+            {% endif %}
+        </div>
     {% else %}
         <p>No alerts found.</p>
     {% endif %}

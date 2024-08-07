@@ -23,12 +23,11 @@ class ProductRepository extends ServiceEntityRepository
     {
         $firstResult = ($page - 1) * self::LIMIT;
 
-        $queryBuilder = $this->createQueryBuilder('product')
+        $query = $this->createQueryBuilder('product')
             ->addSelect('product.id, product.name, product.quantity, product.minQuantity')
             ->setFirstResult($firstResult)
-            ->setMaxResults(self::LIMIT);
-
-        $query = $queryBuilder->getQuery();
+            ->setMaxResults(self::LIMIT)
+            ->getQuery();
 
         return new Paginator($query, true);
     }

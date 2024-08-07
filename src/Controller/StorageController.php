@@ -15,13 +15,16 @@ use Symfony\Component\Routing\Attribute\Route;
 class StorageController extends AbstractController
 {
     #[Route('/', name: 'app_storages', methods: ['GET'])]
-    public function index(StorageRepository $storageRepository): Response
+    public function index(StorageRepository $storageRepository, Request $request): Response
     {
-        $storages = $storageRepository->findAll();
+        $page = $request->query->getInt('page', 1);
+
+        $paginator = $storageRepository->findByPage($page);
 
         return $this->render('storage/index.html.twig', [
-            'controller_name' => 'StorageController',
-            'storages' => $storages
+            'paginator' => $paginator,
+            'currentPage' => $page,
+            'totalPages' => ceil($paginator->count() / StorageRepository::LIMIT),
         ]);
     }
 

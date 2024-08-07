@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Alert;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -11,33 +12,24 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class AlertRepository extends ServiceEntityRepository
 {
+    const int LIMIT = 5;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Alert::class);
     }
 
-//    /**
-//     * @return Alert[] Returns an array of Alert objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('a.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findByPage(int $page): Paginator
+    {
+        $firstResult = ($page - 1) * self::LIMIT;
 
-//    public function findOneBySomeField($value): ?Alert
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        $query = $this->createQueryBuilder('alert')
+            ->leftJoin('alert.products', 'product')
+            ->orderBy('alert.createdAt', 'DESC')
+            ->setFirstResult($firstResult)
+            ->setMaxResults(self::LIMIT)
+            ->getQuery();
+
+        return new Paginator($query, true);
+    }
 }

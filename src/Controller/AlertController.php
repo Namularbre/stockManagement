@@ -15,12 +15,16 @@ use Symfony\Component\Routing\Attribute\Route;
 class AlertController extends AbstractController
 {
     #[Route('/', name: 'app_alerts', methods: ['GET'])]
-    public function index(AlertRepository $alertRepository): Response
+    public function index(AlertRepository $alertRepository, Request $request): Response
     {
-        $alerts = $alertRepository->findAll();
+        $page = $request->query->getInt('page', 1);
+
+        $paginator = $alertRepository->findByPage($page);
 
         return $this->render('alert/index.html.twig', [
-            'alerts' => $alerts,
+            'paginator' => $paginator,
+            'currentPage' => $page,
+            'totalPages' => ceil($paginator->count() / AlertRepository::LIMIT),
         ]);
     }
 

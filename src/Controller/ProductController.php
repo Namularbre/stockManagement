@@ -26,7 +26,6 @@ class ProductController extends AbstractController
 
         return $this->render('product/index.html.twig', [
             'paginator' => $paginator,
-            'page' => $page,
             'currentPage' => $page,
             'totalPages' => ceil($paginator->count() / ProductRepository::LIMIT),
         ]);

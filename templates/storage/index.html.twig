@@ -5,12 +5,16 @@
 {% block body %}
     <h1 class="mb-3">Storages list</h1>
     <a href="{{ path('app_storage_new') }}" class="btn btn-primary mb-3">Create a storage</a>
-    {% if storages %}
+    {% if paginator.count > 0 %}
         <ul>
-        {% for storage in storages %}
+        {% for storage in paginator %}
             <li>
                 <a href="{{ path('app_storage_products', {'id' : storage.id}) }}">{{storage.name}}</a>
-                <p>Number of products: {{ storage.products.count }}</p>
+                {% if storage.products %}
+                    <p>Number of products: {{ storage.products.count }}</p>
+                {% else %}
+                    <p>No products</p>
+                {% endif %}
                 <div class="btn-group">
                     <a class="btn btn-primary" href="{{ path('app_storage_update', {'id': storage.id}) }}">Update</a>
                     <button type="button" class="btn btn-danger delete-button" data-delete-button-source="delete" data-controller="delete" data-action="delete#delete" data-url="{{ path('app_storage_delete', {'id': storage.id}) }}">Delete</button>
@@ -18,6 +22,23 @@
             </li>
         {% endfor %}
         </ul>
+        <div class="navigation">
+            {% if currentPage > 1 %}
+                <a href="{{ path('app_storages', {'page': currentPage - 1}) }}">&laquo; Previous</a>
+            {% endif %}
+
+            {% for i in 1..totalPages %}
+                {% if i == currentPage %}
+                    <span>{{ i }}</span>
+                {% else %}
+                    <a href="{{ path('app_storages', {'page': i}) }}">{{ i }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if currentPage < totalPages %}
+                <a href="{{ path('app_storages', {'page': currentPage + 1}) }}">Next &raquo;</a>
+            {% endif %}
+        </div>
     {% else %}
         <p>No storages found.</p>
     {% endif %}

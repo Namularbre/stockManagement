@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Storage;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -11,33 +12,24 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class StorageRepository extends ServiceEntityRepository
 {
+    const int LIMIT = 5;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Storage::class);
     }
 
-//    /**
-//     * @return Storage[] Returns an array of Storage objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findByPage(int $page): Paginator
+    {
+        $firstResult = ($page - 1) * self::LIMIT;
 
-//    public function findOneBySomeField($value): ?Storage
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        $query = $this->createQueryBuilder('storage')
+            ->leftJoin('storage.products', 'product')
+            ->orderBy('storage.id', 'DESC')
+            ->setFirstResult($firstResult)
+            ->setMaxResults(self::LIMIT)
+            ->getQuery();
+
+        return new Paginator($query, true);
+    }
 }
