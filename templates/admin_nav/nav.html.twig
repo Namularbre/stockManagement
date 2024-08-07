@@ -1,0 +1,27 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary mb-3">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ path('app_home') }}">Stock management admin</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link {% if app.request.attributes.get('_route') == 'app_admin_home' %}active{% endif %}" aria-current="page" href="{{ path('app_admin') }}">Admin Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if app.request.attributes.get('_route') == 'app_storages' %}active{% endif %}" href="{{ path('app_storages') }}">Storages</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if app.request.attributes.get('_route') == 'app_products' %}active{% endif %}" href="{{ path('app_products') }}">Products</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if app.request.attributes.get('_route') == 'app_admin_alert_index' %}active{% endif %}" href="{{ path('app_admin_alert_index') }}">Manage Alerts</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if app.request.attributes.get('_route') == 'app_admin_user_index' %}active{% endif %}" href="{{ path('app_admin_user_index') }}">Manage Users</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
