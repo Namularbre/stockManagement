@@ -21,6 +21,9 @@
                 <li class="nav-item">
                     <a class="nav-link {% if app.request.attributes.get('_route') == 'app_admin_user_index' %}active{% endif %}" href="{{ path('app_admin_user_index') }}">Manage Users</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_home') }}">Back to home</a>
+                </li>
             </ul>
         </div>
     </div>

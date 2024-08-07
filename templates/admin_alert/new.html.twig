@@ -1,0 +1,11 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}New Alert{% endblock %}
+
+{% block body %}
+    <h1>Create new Alert</h1>
+
+    {{ include('admin_alert/_form.html.twig') }}
+
+    <a class="btn btn-secondary" href="{{ path('app_admin_alert_index') }}">back to list</a>
+{% endblock %}

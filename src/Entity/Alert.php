@@ -101,4 +101,11 @@ class Alert
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return "id: " . $this->id . " createdAt: " . $this->createdAt->format("Y-M-D h.m.s") . " finished: " . $this->finished .
+            " author: " . $this->author . "products: " . $this->products;
+    }
+
 }
