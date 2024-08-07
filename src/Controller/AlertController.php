@@ -83,4 +83,20 @@ class AlertController extends AbstractController
 
         throw $this->createNotFoundException('Alert not found');
     }
+
+    #[Route('/finish/{id}', name: 'app_alert_finish', methods: ['PUT'])]
+    public function finish(EntityManagerInterface $entityManager, int $id): Response
+    {
+        $alert = $entityManager->getRepository(Alert::class)->findOneBy(['id' => $id]);
+
+        if (isset($alert)) {
+            $alert->setFinished(true);
+            $entityManager->persist($alert);
+            $entityManager->flush();
+
+            return new Response("Alert finished", Response::HTTP_OK);
+        }
+
+        throw $this->createNotFoundException('Alert not found');
+    }
 }

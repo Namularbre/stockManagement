@@ -26,6 +26,7 @@ class AlertRepository extends ServiceEntityRepository
         $query = $this->createQueryBuilder('alert')
             ->leftJoin('alert.products', 'product')
             ->orderBy('alert.createdAt', 'DESC')
+            ->where('alert.finished = 0')
             ->setFirstResult($firstResult)
             ->setMaxResults(self::LIMIT)
             ->getQuery();

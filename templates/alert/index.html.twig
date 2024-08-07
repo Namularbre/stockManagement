@@ -23,6 +23,7 @@
                     </ul>
                     <p>Created at: {{ alert.createdAt.format('Y-M-D h.m.s') }}</p>
                     <button type="button" class="btn btn-danger delete-button" data-delete-button-source="delete" data-controller="delete" data-action="delete#delete" data-url="{{ path('app_alert_delete', {'id': alert.id}) }}">Delete</button>
+                    <button type="button" class="btn btn-primary finish-button" data-finish-button-source="finish" data-controller="finish" data-action="finish#finish" data-url="{{ path('app_alert_finish', {'id': alert.id}) }}">Set finished</button>
                 </li>
             {% endfor %}
         </ul>
