@@ -18,12 +18,17 @@ use Symfony\Component\HttpFoundation\Request;
 class ProductController extends AbstractController
 {
     #[Route('/', name: 'app_products', methods: ['GET'])]
-    public function index(ProductRepository $productRepository): Response
+    public function index(ProductRepository $productRepository, Request $request): Response
     {
-        $products = $productRepository->findAll();
+        $page = $request->query->getInt('page', 1);
+
+        $paginator = $productRepository->findByPage($page);
 
         return $this->render('product/index.html.twig', [
-            'products' => $products,
+            'paginator' => $paginator,
+            'page' => $page,
+            'currentPage' => $page,
+            'totalPages' => $paginator->count()
         ]);
     }
 

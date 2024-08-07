@@ -5,22 +5,35 @@
 {% block body %}
     <h1 class="mb-3">Products</h1>
     <a href="{{ path('app_product_new') }}" class="mb-3 btn btn-primary">Create product</a>
-    {% if products %}
-        <ul>
-        {% for product in products %}
-            <li class="mb-3">
-                <a href="{{ path('app_product', {'id': product.id }) }}">{{ product.name }}</a>
-                {% if product.quantity %}
-                    <p>Quantity {{ product.quantity }}</p>
-                {% endif %}
-                <div class="btn-group">
-                    <a class="btn btn-primary" href="{{ path('app_product_update', {'id': product.id}) }}">Update</a>
-                    <button type="button" class="btn btn-danger delete-button" data-delete-button-source="delete" data-controller="delete" data-action="delete#delete" data-url="{{ path('app_product_delete', {'id': product.id}) }}">Delete</button>
-                </div>
-            </li>
+    <ul>
+    {% for product in paginator %}
+        <li class="mb-3">
+            <a href="{{ path('app_product', {'id': product.id }) }}">{{ product.name }}</a>
+            {% if product.quantity %}
+                <p>Quantity {{ product.quantity }}</p>
+            {% endif %}
+            <div class="btn-group">
+                <a class="btn btn-primary" href="{{ path('app_product_update', {'id': product.id}) }}">Update</a>
+                <button type="button" class="btn btn-danger delete-button" data-delete-button-source="delete" data-controller="delete" data-action="delete#delete" data-url="{{ path('app_product_delete', {'id': product.id}) }}">Delete</button>
+            </div>
+        </li>
+    {% endfor %}
+    </ul>
+    <div class="navigation">
+        {% if currentPage > 1 %}
+            <a href="{{ path('app_products', {'page': currentPage - 1}) }}">&laquo; Previous</a>
+        {% endif %}
+
+        {% for i in 1..totalPages %}
+            {% if i == currentPage %}
+                <span>{{ i }}</span>
+            {% else %}
+                <a href="{{ path('app_products', {'page': i}) }}">{{ i }}</a>
+            {% endif %}
         {% endfor %}
-        </ul>
-    {% else %}
-        <p>No products found</p>
-    {% endif %}
+
+        {% if currentPage < totalPages %}
+            <a href="{{ path('app_products', {'page': currentPage + 1}) }}">Next &raquo;</a>
+        {% endif %}
+    </div>
 {% endblock %}

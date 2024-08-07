@@ -4,12 +4,7 @@ export default class extends Controller {
     static targets = ["delete"];
 
     connect() {
-        console.log('Delete controller connected');
-
-        Object.keys(this).forEach((key) => {
-            console.log(key);
-
-        });
+        //Nothing to do
     }
 
     delete(event) {
