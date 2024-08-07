@@ -7,6 +7,10 @@ export default class extends Controller {
         //Nothing to do
     }
 
+    /**
+     *
+     * @param event {Event}
+     */
     delete(event) {
         event.preventDefault();
         const url = this.element.dataset.url;
