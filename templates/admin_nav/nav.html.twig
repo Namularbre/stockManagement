@@ -13,7 +13,7 @@
                     <a class="nav-link {% if app.request.attributes.get('_route') == 'app_storages' %}active{% endif %}" href="{{ path('app_storages') }}">Storages</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if app.request.attributes.get('_route') == 'app_products' %}active{% endif %}" href="{{ path('app_products') }}">Products</a>
+                    <a class="nav-link {% if app.request.attributes.get('_route') == 'app_admin_product_index' %}active{% endif %}" href="{{ path('app_admin_product_index') }}">Manage Products</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% if app.request.attributes.get('_route') == 'app_admin_alert_index' %}active{% endif %}" href="{{ path('app_admin_alert_index') }}">Manage Alerts</a>
