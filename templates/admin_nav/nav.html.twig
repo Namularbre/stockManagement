@@ -10,7 +10,7 @@
                     <a class="nav-link {% if app.request.attributes.get('_route') == 'app_admin_home' %}active{% endif %}" aria-current="page" href="{{ path('app_admin') }}">Admin Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if app.request.attributes.get('_route') == 'app_storages' %}active{% endif %}" href="{{ path('app_storages') }}">Storages</a>
+                    <a class="nav-link {% if app.request.attributes.get('_route') == 'app_admin_storage_index' %}active{% endif %}" href="{{ path('app_admin_storage_index') }}">Manage Storages</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% if app.request.attributes.get('_route') == 'app_admin_product_index' %}active{% endif %}" href="{{ path('app_admin_product_index') }}">Manage Products</a>

@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Storage index{% endblock %}
+
+{% block body %}
+    <h1>Storage index</h1>
+
+    <a class="btn btn-primary" href="{{ path('app_admin_storage_new') }}">Create new</a>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for storage in storages %}
+            <tr>
+                <td>{{ storage.id }}</td>
+                <td>{{ storage.name }}</td>
+                <td>
+                    <a href="{{ path('app_admin_storage_show', {'id': storage.id}) }}">show</a>
+                    <a href="{{ path('app_admin_storage_edit', {'id': storage.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
