@@ -23,7 +23,7 @@ class Storage
     /**
      * @var Collection<int, Product>
      */
-    #[ORM\OneToMany(targetEntity: Product::class, mappedBy: 'storage')]
+    #[ORM\OneToMany(targetEntity: Product::class, mappedBy: 'storage', cascade: ['persist', 'remove'])]
     private Collection $products;
 
     public function __construct()
