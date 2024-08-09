@@ -16,6 +16,7 @@ use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class ProductType extends AbstractType
 {
@@ -45,17 +46,37 @@ class ProductType extends AbstractType
                 'attr' => ['class' => 'form-control', 'min' => 0],
                 'label_attr' => ['class' => 'form-label'],
                 'required' => false,
+                'empty_data' => 1,
+                'constraints' => [
+                    new Assert\GreaterThanOrEqual([
+                        'value' => 0,
+                        'message' => 'Quantity must be positive',
+                    ]),
+                ],
             ])
             ->add('minQuantity', NumberType::class, [
                 'attr' => ['class' => 'form-control', 'min' => 0],
                 'label_attr' => ['class' => 'form-label'],
                 'required' => false,
+                'empty_data' => 0,
+                'constraints' => [
+                    new Assert\GreaterThanOrEqual([
+                        'value' => 0,
+                        'message' => 'Min quantity must be positive',
+                    ]),
+                ],
             ])
             ->add('storage', EntityType::class, [
                 'class' => Storage::class,
                 'choice_label' => 'name',
                 'attr' => ['class' => 'form-select'],
                 'label_attr' => ['class' => 'form-label'],
+                'constraints' => [
+                    new NotBlank(),
+                    new NotNull([
+                        'message' => 'You must select a storage',
+                    ]),
+                ],
             ])
             ->add('imageFile', FileType::class, [
                 'attr' => ['class' => 'form-control'],
