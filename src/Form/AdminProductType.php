@@ -76,6 +76,7 @@ class AdminProductType extends AbstractType
             ->add('alerts', EntityType::class, [
                 'class' => Alert::class,
                 'choice_label' => 'id',
+                'required' => false,
                 'multiple' => true,
                 'attr' => ['class' => 'form-select'],
                 'label_attr' => ['class' => 'form-label'],
