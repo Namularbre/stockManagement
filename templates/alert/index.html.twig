@@ -32,13 +32,15 @@
                 <a href="{{ path('app_alerts', {'page': currentPage - 1}) }}">&laquo; Previous</a>
             {% endif %}
 
-            {% for i in 1..totalPages %}
-                {% if i == currentPage %}
-                    <span>{{ i }}</span>
-                {% else %}
-                    <a href="{{ path('app_alerts', {'page': i}) }}">{{ i }}</a>
-                {% endif %}
-            {% endfor %}
+            {% if totalPages > 1 %}
+                {% for i in 1..totalPages %}
+                    {% if i == currentPage %}
+                        <span>{{ i }}</span>
+                    {% else %}
+                        <a href="{{ path('app_alerts', {'page': i}) }}">{{ i }}</a>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
 
             {% if currentPage < totalPages %}
                 <a href="{{ path('app_alerts', {'page': currentPage + 1}) }}">Next &raquo;</a>
