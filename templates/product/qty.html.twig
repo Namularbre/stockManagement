@@ -1,0 +1,11 @@
+<div class="mb-3 row d-flex">
+    <div class="col-auto">
+        <button type="button" class="btn btn-secondary put-button" data-delete-button-source="put" data-controller="put" data-action="put#put" data-url="{{ path('app_product_reduce', {'id': product.id}) }}">-</button>
+    </div>
+    <div class="col-auto">
+        <p>Quantity: {{ product.quantity }}</p>
+    </div>
+    <div class="col-auto">
+        <button type="button" class="btn btn-secondary put-button" data-delete-button-source="put" data-controller="put" data-action="put#put" data-url="{{ path('app_product_add', {'id': product.id}) }}">+</button>
+    </div>
+</div>

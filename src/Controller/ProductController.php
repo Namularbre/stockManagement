@@ -94,7 +94,7 @@ class ProductController extends AbstractController
         ]);
     }
 
-    private function cleanAlerts(EntityManagerInterface $entityManager, Product $product)
+    private function cleanAlerts(EntityManagerInterface $entityManager, Product $product): void
     {
         foreach ($product->getAlerts() as $alert) {
             $alert->removeProduct($product);
@@ -154,5 +154,48 @@ class ProductController extends AbstractController
             'product' => $product,
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route('/reduce/{id}', name: 'app_product_reduce', methods: ['PUT'])]
+    public function reduceQuantity(EntityManagerInterface $entityManager, int $id): Response
+    {
+        $product = $entityManager->getRepository(Product::class)->findOneBy(['id' => $id]);
+
+        if (isset($product)) {
+            $qty = $product->getQuantity();
+
+            if ($qty > 0) {
+                $qty -= 1;
+                $product->setQuantity($qty);
+
+                $entityManager->persist($product);
+                $entityManager->flush();
+
+                return new Response('Product updated.', Response::HTTP_OK);
+            } else {
+                return new Response('Quantity cannot be negative', Response::HTTP_OK);
+            }
+        }
+
+        throw $this->createNotFoundException('Product not found');
+    }
+
+    #[Route('/add/{id}', name: 'app_product_add', methods: ['PUT'])]
+    public function addQuantity(EntityManagerInterface $entityManager, int $id): Response
+    {
+        $product = $entityManager->getRepository(Product::class)->findOneBy(['id' => $id]);
+
+        if (isset($product)) {
+            $qty = $product->getQuantity();
+            $qty += 1;
+            $product->setQuantity($qty);
+
+            $entityManager->persist($product);
+            $entityManager->flush();
+
+            return new Response('Product updated.', Response::HTTP_OK);
+        }
+
+        throw $this->createNotFoundException('Product not found');
     }
 }
