@@ -4,11 +4,12 @@ namespace App\Form;
 
 use App\Entity\Alert;
 use App\Entity\Product;
-use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\NotNull;
 
 class AlertType extends AbstractType
 {
@@ -20,11 +21,11 @@ class AlertType extends AbstractType
                 'choice_label' => 'name',
                 'multiple' => true,
                 'label_attr' => ['class' => 'form-label'],
-            ])
-            ->add('author', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'username',
-                'label_attr' => ['class' => 'form-label'],
+                'attr' => ['class' => 'form-select'],
+                'constraints' => [
+                    new NotBlank(),
+                    new NotNull(),
+                ],
             ])
         ;
     }
