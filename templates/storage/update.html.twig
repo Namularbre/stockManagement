@@ -4,6 +4,15 @@
 
 {% block body %}
     <h1>Update storage {{ storage.name }}</h1>
+
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
     {{ form_start(form, {'action': path('app_storage_update', {'id': storage.id}), 'method': 'PUT'}) }}
         {{ form_errors(form) }}
         {{ form_widget(form) }}
