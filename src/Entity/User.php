@@ -38,7 +38,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Alert>
      */
-    #[ORM\OneToMany(targetEntity: Alert::class, mappedBy: 'author')]
+    #[ORM\OneToMany(targetEntity: Alert::class, mappedBy: 'author', cascade: ['persist', 'remove'])]
     private Collection $alerts;
 
     public function __construct()
