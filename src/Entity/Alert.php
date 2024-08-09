@@ -30,10 +30,13 @@ class Alert
     #[ORM\Column]
     private ?bool $finished = null;
 
+    /**
+     * @throws \Exception
+     */
     public function __construct()
     {
         $this->products = new ArrayCollection();
-        $this->createdAt = new \DateTimeImmutable('now');
+        $this->createdAt = new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris'));
         $this->finished = false;
     }
 
