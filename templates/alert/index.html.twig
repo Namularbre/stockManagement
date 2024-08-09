@@ -9,7 +9,7 @@
         <ul>
             {% for alert in paginator %}
                 <li class="mb-3">
-                    <a href="{{ path('app_alert', {'id': alert.id}) }}" class="btn btn-primary">See alert</a>
+                    <a href="{{ path('app_alert', {'id': alert.id}) }}">See alert</a>
                     <h5 class="mb-3">Product to retake:</h5>
                     <ul>
                         {% for product in alert.products %}
