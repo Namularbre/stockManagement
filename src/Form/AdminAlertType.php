@@ -27,12 +27,6 @@ class AdminAlertType extends AbstractType
                 'attr' => ['class' => 'form-select'],
                 'label_attr' => ['class' => 'form-label'],
             ])
-            ->add('author', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'username',
-                'attr' => ['class' => 'form-select'],
-                'label_attr' => ['class' => 'form-label'],
-            ])
         ;
     }
 
