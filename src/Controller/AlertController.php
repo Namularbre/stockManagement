@@ -7,6 +7,7 @@ use App\Form\AlertType;
 use App\Repository\AlertRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -43,15 +44,18 @@ class AlertController extends AbstractController
     }
 
     #[Route('/new', name: 'app_alert_new', methods: ['GET', 'POST'])]
-    public function new(EntityManagerInterface $entityManager, Request $request): Response
+    public function new(EntityManagerInterface $entityManager, Request $request, Security $security): Response
     {
         $alert = new Alert();
+
+        $user = $security->getUser();
 
         $form = $this->createForm(AlertType::class, $alert);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
+                $alert->setAuthor($user);
                 $entityManager->persist($alert);
                 $entityManager->flush();
 
