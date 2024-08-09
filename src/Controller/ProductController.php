@@ -94,12 +94,25 @@ class ProductController extends AbstractController
         ]);
     }
 
+    private function cleanAlerts(EntityManagerInterface $entityManager, Product $product)
+    {
+        foreach ($product->getAlerts() as $alert) {
+            $alert->removeProduct($product);
+
+            if ($alert->getProducts()->isEmpty()) {
+                $entityManager->remove($alert);
+            }
+        }
+    }
+
     #[Route('/delete/{id}', name: 'app_product_delete', methods: ['DELETE'])]
     public function deleteProduct(EntityManagerInterface $entityManager, int $id): Response
     {
         $product = $entityManager->getRepository(Product::class)->findOneBy(['id' => $id]);
 
         if (isset($product)) {
+            $this->cleanAlerts($entityManager, $product);
+
             $entityManager->remove($product);
             $entityManager->flush();
 
