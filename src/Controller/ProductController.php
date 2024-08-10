@@ -107,12 +107,21 @@ class ProductController extends AbstractController
     }
 
     #[Route('/delete/{id}', name: 'app_product_delete', methods: ['DELETE'])]
-    public function deleteProduct(EntityManagerInterface $entityManager, int $id): Response
+    public function deleteProduct(EntityManagerInterface $entityManager, int $id, ImageService $imageService, LoggerInterface $logger): Response
     {
         $product = $entityManager->getRepository(Product::class)->findOneBy(['id' => $id]);
 
         if (isset($product)) {
             $this->cleanAlerts($entityManager, $product);
+
+            if ($product->getImageName() !== null) {
+                try {
+                    $imageService->deleteObject($product->getImageName());
+                } catch (FilesystemException $exception) {
+                    $logger->error('Unable to upload file into min.io: ' . $exception->getMessage());
+                    return new Response('Internal server error', Response::HTTP_INTERNAL_SERVER_ERROR);
+                }
+            }
 
             $entityManager->remove($product);
             $entityManager->flush();

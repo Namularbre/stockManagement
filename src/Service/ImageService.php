@@ -62,4 +62,14 @@ class ImageService
         }
         return null;
     }
+
+    /**
+     * @throws FilesystemException
+     */
+    public function deleteObject(string $name): void
+    {
+        if ($this->filesystem->has($name)) {
+            $this->filesystem->delete($name);
+        }
+    }
 }
