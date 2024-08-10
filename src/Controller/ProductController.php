@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use League\Flysystem\FilesystemException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DomCrawler\Image;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -123,7 +124,7 @@ class ProductController extends AbstractController
     }
 
     #[Route('/update/{id}', name: 'app_product_update', methods: ['GET', 'PUT'])]
-    public function updateProduct(EntityManagerInterface $entityManager, int $id, Request $request): Response
+    public function updateProduct(EntityManagerInterface $entityManager, int $id, Request $request, ImageService $imageService, LoggerInterface $logger): Response
     {
         $product = $entityManager->getRepository(Product::class)->findOneBy(['id' => $id]);
 
@@ -138,6 +139,17 @@ class ProductController extends AbstractController
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
+                $image = $product->getImageFile();
+                if (isset($image)) {
+                    try {
+                        $imageName = $imageService->putObject($product->getName(), $image->getContent());
+                        $product->setImageName($imageName);
+                    } catch (FilesystemException $exception) {
+                        $logger->error('Unable to upload file into min.io: ' . $exception->getMessage());
+                        return new Response('Internal server error', Response::HTTP_INTERNAL_SERVER_ERROR);
+                    }
+                }
+                $entityManager->persist($product);
                 $entityManager->flush();
 
                 $this->addFlash('success', 'Product updated');
