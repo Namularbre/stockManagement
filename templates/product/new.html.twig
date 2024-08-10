@@ -13,10 +13,13 @@
         {% endfor %}
     {% endfor %}
 
-    {{ form_start(form) }}
+    <div class="mb-3">
+        {{ form_start(form) }}
         {{ form_errors(form) }}
         {{ form_widget(form) }}
         <button class="btn btn-primary mt-3" type="submit">Add product</button>
-    {{ form_end(form) }}
+        {{ form_end(form) }}
+    </div>
+
     <a href="{{path('app_products')}}" class="btn btn-secondary">Return</a>
 {% endblock %}
