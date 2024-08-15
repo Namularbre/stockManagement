@@ -9,7 +9,7 @@
             {% for product in alert.products %}
                 <li class="mb-3">
                     <div class="m-3">
-                        <p>Product name: {{ product.name }}</p>
+                        <a href="{{ path('app_product', {'id': product.id}) }}">Product name: {{ product.name }}</a>
                         <p>Min quantity to refill: {{ product.minQuantity }}</p>
                     </div>
                 </li>

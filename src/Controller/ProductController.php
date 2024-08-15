@@ -53,6 +53,7 @@ class ProductController extends AbstractController
             return $this->render('product/product.html.twig', [
                 'product' => $product,
                 'imageFile' => $imageFile,
+                'backUrl' => $_SERVER['HTTP_REFERER'],
             ]);
         }
 
